@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 185 170"
+   version="1.1"
+   id="svg870"
+   sodipodi:docname="sql-dev.svg"
+   width="185"
+   height="170"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs874" />
+  <sodipodi:namedview
+     id="namedview872"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="2.2361111"
+     inkscape:cx="144"
+     inkscape:cy="106.88199"
+     inkscape:window-width="1920"
+     inkscape:window-height="986"
+     inkscape:window-x="-11"
+     inkscape:window-y="1609"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg870" />
+  <title
+     id="title850">sql-dev-new</title>
+  <g
+     id="g967"
+     transform="matrix(1.6999998,0,0,1.6999998,-50.999988,-50.999991)">
+    <path
+       d="m 73.243244,44.912165 c -23.885132,0 -43.24324,-3.33784 -43.24324,-7.432431 v 80.358106 c 0,4.11486 19.358108,7.43243 43.24324,7.43243 23.88514,0 43.243246,-3.33784 43.243246,-7.43243 V 37.432437 c 0,4.141888 -19.358106,7.479728 -43.243246,7.479728 z"
+       fill="#d1d1d1"
+       id="path852"
+       style="stroke-width:0.675676" />
+    <path
+       d="m 30.000004,37.432437 v 80.405403 c 0,4.11486 19.358108,7.43243 43.24324,7.43243 V 44.912165 c -23.885132,0 -43.24324,-3.33784 -43.24324,-7.479728 z"
+       fill="#adadad"
+       id="path854"
+       style="stroke-width:0.675676" />
+    <path
+       d="m 110.4054,41.270275 v 80.358105 c 3.85811,-1.11487 6.08109,-2.41892 6.08109,-3.81081 V 37.432437 c 0,1.418919 -2.21622,2.702698 -6.08109,3.837838 z"
+       fill="#adadad"
+       id="path856"
+       style="stroke-width:0.675676" />
+    <ellipse
+       cx="73.24324"
+       cy="37.452702"
+       rx="43.243244"
+       ry="7.4527025"
+       fill="#939699"
+       id="ellipse858"
+       style="stroke-width:0.675676" />
+    <path
+       d="m 30.000004,87.986495 c 0,4.11486 19.358108,7.43243 43.24324,7.43243 23.88514,0 43.243246,-3.33784 43.243246,-7.43243 v 6.08108 c 0,4.11486 -19.358106,7.432425 -43.243246,7.432425 -23.885132,0 -43.24324,-3.337835 -43.24324,-7.432425 z"
+       fill="#939699"
+       id="path860"
+       style="stroke-width:0.675676" />
+    <path
+       d="m 30.000004,61.202705 c 0,4.11487 19.358108,7.43243 43.24324,7.43243 23.88514,0 43.243246,-3.33783 43.243246,-7.43243 v 6.08108 c 0,4.11487 -19.358106,7.43244 -43.243246,7.43244 -23.885132,0 -43.24324,-3.33784 -43.24324,-7.43244 z"
+       fill="#939699"
+       id="path862"
+       style="stroke-width:0.675676" />
+    <circle
+       cx="113.10811"
+       cy="104.32433"
+       r="25.675676"
+       fill="#ecedf0"
+       id="circle864"
+       style="stroke-width:0.675676" />
+    <circle
+       cx="113.10811"
+       cy="104.32433"
+       r="22.506758"
+       fill="#3faa00"
+       id="circle866"
+       style="stroke-width:0.675676" />
+    <polygon
+       points="173.27,216.52 204.24,198.64 173.27,180.76 "
+       fill="#ffffff"
+       id="polygon868"
+       transform="matrix(0.67567567,0,0,0.67567567,-11.891888,-30.810806)" />
+  </g>
+  <metadata
+     id="metadata956">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>sql-dev-new</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>
