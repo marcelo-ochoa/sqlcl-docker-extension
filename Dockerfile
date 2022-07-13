@@ -28,7 +28,7 @@ RUN --mount=type=cache,target=/go/pkg/mod \
     go build -trimpath -ldflags="-s -w" -o bin/service
 
 FROM alpine:3.15
-RUN apk update && apk add --no-cache ncurses bash ttyd tini openjdk11-jre && \
+RUN apk update && apk add --no-cache ncurses bash ttyd tini openjdk17-jre && \
     mkdir -p /home/sqlcl && \
     echo "HOME=/home/sqlcl;cd /home/sqlcl;/opt/sqlcl/bin/sql /nolog" > /home/sql.sh && \
     chown 1000:1000 /home/sqlcl /home/sql.sh && \
@@ -58,4 +58,4 @@ COPY --from=client-builder /app/client/dist ui
 COPY --from=client-builder /opt/sqlcl /opt/sqlcl
 COPY --from=builder /backend/bin/service /
 
-CMD /service -socket /run/guest-services/sqlcl-docker-extension.sock
+ENTRYPOINT ["/sbin/tini", "--", "/service", "-socket", "/run/guest-services/sqlcl-docker-extension.sock"]

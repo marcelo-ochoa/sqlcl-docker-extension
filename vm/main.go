@@ -39,7 +39,7 @@ func main() {
 }
 
 func spawnTtyd() {
-	cmd := exec.Command("/usr/bin/ttyd", "-s", "9", "-u", "1000", "-g", "1000", "-t", "titleFixed='sqlcl'", "/sbin/tini", "-g", "-s", "/bin/bash", "--", "/home/sql.sh")
+	cmd := exec.Command("/usr/bin/ttyd", "-u", "1000", "-g", "1000", "-t", "titleFixed='sqlcl'", "/bin/bash", "/home/sql.sh")
 	cmd.Start()
 }
 
