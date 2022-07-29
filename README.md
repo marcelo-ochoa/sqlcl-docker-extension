@@ -50,7 +50,3 @@ which means for a sqlcl Add New Server:
 - Password: tiger
 
 the extension have a persistent history of command, if you choose exit and start again SQLcl Docker Extension just use cursor up and down to navigate on history entries.
-
-### Knowns caveats
-
-For some reasons that I don't know if you are using SQLcl Docker Desktop Extension and want to switch to another extension such as Disk Usage by clicking at left side pane Extensions (Beta) -> Disk Usage main windows focus still at SQLcl Extension, as a workaround just click on some left main pane options such as Home or Containers and go back to the desire extension. This problem is visible also when using Logs Explorer and the extension is showing a lot of logs.
