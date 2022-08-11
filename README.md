@@ -7,10 +7,10 @@ sqlcl extension for Docker Desktop
 Until this extension is ready at Docker Extension Hub you can install just by executing:
 
 ```bash
-$ docker extension install mochoa/sqlcl-docker-extension:22.2.0
+$ docker extension install mochoa/sqlcl-docker-extension:22.2.1
 Extensions can install binaries, invoke commands and access files on your machine. 
 Are you sure you want to continue? [y/N] y
-Installing new extension "mochoa/sqlcl-docker-extension:22.2.0"
+Installing new extension "mochoa/sqlcl-docker-extension:22.2.1"
 Installing service in Desktop VM...
 Setting additional compose attributes
 VM service started
@@ -50,3 +50,88 @@ which means for a sqlcl Add New Server:
 - Password: tiger
 
 the extension have a persistent history of command, if you choose exit and start again SQLcl Docker Extension just use cursor up and down to navigate on history entries.
+
+## Upload/Download files
+
+If you want to import/export large files from/to Oracle RDBMs using some of the functionality of SQLcl such as dp (Data Pump) or load command is necessary to provide that files to the extension persistent volume, you can check it by using Volumes menu:
+
+![Docker Desktop Volumes](https://miro.medium.com/max/1400/0*DZdlhN995x75t5a9)
+
+Persistent volume is **mochoa_sqlcl-docker-extension-desktop-extension_sqlcl_home**.
+
+A sample usage taken from Jeff Smith blog but using SQLcl Docker Extension is:
+
+```sql
+SQL> set feedback off
+SQL> spool objects.csv
+SQL> SELECT * FROM all_objects fetch FIRST 100 ROWS ONLY;
+SQL> spool off
+```
+
+copy exported data to you local file system and upload again in another directory, run this in a command line shell:
+
+```bash
+docker cp mochoa_sqlcl-docker-extension-desktop-extension-service:/home/sqlcl/objects.csv .
+docker cp objects.csv mochoa_sqlcl-docker-extension-desktop-extension-service:/tmp
+```
+
+finally import again using SQLcl LOAD command:
+
+```sql
+SQL> CREATE TABLE demo_load AS SELECT * FROM all_objects WHERE 1=2;
+Table DEMO_LOAD created.
+SQL> load demo_load /tmp/objects.csv
+Load data into table SCOTT.DEMO_LOAD
+csv
+column_names on
+delimiter ,
+enclosures ""
+encoding UTF8
+row_limit off
+row_terminator default
+skip_rows 0
+skip_after_names
+#INFO Number of rows processed: 100
+#INFO Number of rows in error: 0
+#INFO No rows committed
+SUCCESS: Processed without errors
+SQL> set sqlformat default
+SQL> select count(*) from demo_load;
+  COUNT(*)
+----------
+       100
+```
+
+## Connect to Oracle Cloud Autonomous DB
+
+SQLcl Desktop Extension is able to connect to your autonomous DB, you have to download first your Wallet file from OCI cloud console as is described into [Download Database Connection Information](https://docs.oracle.com/en-us/iaas/autonomous-database-shared/doc/connect-download-wallet.html#GUID-B06202D2-0597-41AA-9481-3B174F75D4B1), you will see a tab like:
+
+![ATP DB Connection Wallet Download Tab](https://miro.medium.com/max/1352/1*wendOYTkXqtViKsxHy70BQ.png)
+
+Once you have a Zip file upload it to SQLcl persistent volume using docker cp command:
+
+```bash
+docker cp Wallet_DBparquet.zip mochoa_sqlcl-docker-extension-desktop-extension-service:/home/sqlcl
+```
+
+finally use you Wallet inside SQLcl Docker Extension using:
+
+```sql
+SQL> set cloudconfig /home/sqlcl/Wallet_DBparquet.zip
+SQL> connect admin/***********@dbparquet_high
+SQL> desc demo_tab
+SQL> select count(*) from demo_tab;
+```
+
+## Uninstall
+
+To uninstall the extension just execute:
+
+```bash
+$ docker extension uninstall mochoa/sqlcl-docker-extension:22.2.1
+Extension "Oracle SQLcl client tool" uninstalled successfully
+```
+
+## Source Code
+
+As usual the code of this extension is at [GitHub](https://github.com/marcelo-ochoa/sqlcl-docker-extension), feel free to suggest changes and make contributions, note that I am a beginner developer of React and TypeScript so contributions to make this UI better are welcome.

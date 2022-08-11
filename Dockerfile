@@ -1,10 +1,11 @@
-ARG VERSION=6.10
-ARG sqlcl_IMAGE_NAME=mochoa/sqlcl
-FROM ${sqlcl_IMAGE_NAME}:${VERSION} as sqlcl
-
 FROM --platform=$BUILDPLATFORM node:17.7-alpine3.14 AS client-builder
+ARG VERSION=22.2
+ARG MINOR=1
+ARG PATCH=201
+ARG BUILD=1451
 WORKDIR /app/client
-RUN wget https://download.oracle.com/otn_software/java/sqldeveloper/sqlcl-22.2.0.172.1718.zip && unzip -d /opt sqlcl-22.2.0.172.1718.zip
+# https://www.oracle.com/database/sqldeveloper/technologies/sqlcl/download/
+RUN wget https://download.oracle.com/otn_software/java/sqldeveloper/sqlcl-${VERSION}.${MINOR}.${PATCH}.${BUILD}.zip && unzip -d /opt sqlcl-${VERSION}.${MINOR}.${PATCH}.${BUILD}.zip
 # cache packages in layer
 COPY client/package.json /app/client/package.json
 COPY client/package-lock.json /app/client/package-lock.json
@@ -57,5 +58,6 @@ COPY sqlcl.svg metadata.json docker-compose.yml ./
 COPY --from=client-builder /app/client/dist ui
 COPY --from=client-builder /opt/sqlcl /opt/sqlcl
 COPY --from=builder /backend/bin/service /
+COPY login.sql /home/sqlcl
 
 ENTRYPOINT ["/sbin/tini", "--", "/service", "-socket", "/run/guest-services/sqlcl-docker-extension.sock"]

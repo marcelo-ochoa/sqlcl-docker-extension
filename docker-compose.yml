@@ -3,9 +3,12 @@ version: "3"
 services:
   sqlcl-docker-extension:
     image: ${DESKTOP_PLUGIN_IMAGE}
+    hostname: sqlcl-docker-extension
     ports:
       - 9890:7681
     volumes:
       - sqlcl_home:/home/sqlcl
+    environment:
+      - SQLPATH=/home/sqlcl
 volumes:
   sqlcl_home:

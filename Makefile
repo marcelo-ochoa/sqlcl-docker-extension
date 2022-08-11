@@ -2,7 +2,7 @@ all: clean extension install
 
 ORG=mochoa
 VERSION=22.2
-MINOR=0
+MINOR=1
 IMAGE_NAME=$(ORG)/sqlcl-docker-extension
 TAGGED_IMAGE_NAME=$(IMAGE_NAME):$(VERSION).${MINOR}
 
@@ -11,7 +11,7 @@ clean:
 	-docker rmi $(TAGGED_IMAGE_NAME)
 
 extension:
-	docker build -t $(TAGGED_IMAGE_NAME) --build-arg VERSION=$(VERSION) .
+	docker build -t $(TAGGED_IMAGE_NAME) --build-arg VERSION=$(VERSION) --build-arg MINOR=$(MINOR) .
 
 install:
 	docker extension install $(TAGGED_IMAGE_NAME)
