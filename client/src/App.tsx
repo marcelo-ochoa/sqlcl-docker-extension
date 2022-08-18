@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { LinearProgress, Typography, Grid } from '@mui/material';
 import { createDockerDesktopClient } from '@docker/extension-api-client';
+import { useMediaQuery} from '@mui/material';
+
 
 const client = createDockerDesktopClient();
 
@@ -11,9 +13,17 @@ function useDockerDesktopClient() {
 export function App() {
   const [ready, setReady] = useState<boolean>(false);
   const ddClient = useDockerDesktopClient();
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+
+  if (prefersDarkMode) {
+    ddClient.extension.vm?.service?.get('/dark');
+  } else {
+    ddClient.extension.vm?.service?.get('/light');
+  }
 
   useEffect(() => {
     const checkIfsqlclIsReady = async () => {
+
       const result = await ddClient.extension.vm?.service?.get('/ready');
       const ready = Boolean(result);
       if (ready) {
