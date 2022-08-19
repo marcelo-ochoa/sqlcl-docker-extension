@@ -1,7 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
+	"fmt"
 	"log"
 	"net"
 	"net/http"
@@ -37,8 +39,7 @@ func main() {
 	ttyd = TTYD{}
 
 	router.GET("/ready", ready)
-	router.POST("/dark", dark)
-	router.POST("/light", light)
+	router.POST("/start", start)
 
 	log.Fatal(router.Start(startURL))
 }
@@ -56,28 +57,19 @@ func ready(ctx echo.Context) error {
 	return ctx.String(http.StatusServiceUnavailable, "false")
 }
 
-// dark starts ttyd in dark mode
-func dark(ctx echo.Context) error {
-	if err := ttyd.Start(DarkTheme); err != nil {
-		log.Printf("failed to start ttyd with dark mode: %s\n", err)
-
-		return echo.NewHTTPError(http.StatusInternalServerError)
+// start starts ttyd with the provided theme.
+func start(ctx echo.Context) error {
+	var theme Theme
+	if err := ctx.Bind(&theme); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-
-	log.Println("started ttyd with dark mode")
-
-	return ctx.String(http.StatusOK, "true")
-}
-
-// light starts ttyd in dark mode
-func light(ctx echo.Context) error {
-	if err := ttyd.Start(LightTheme); err != nil {
+	if err := ttyd.Start(theme); err != nil {
 		log.Printf("failed to start ttyd with light mode: %s\n", err)
 
 		return echo.NewHTTPError(http.StatusInternalServerError)
 	}
 
-	log.Println("started ttyd with light mode")
+	log.Println("started ttyd with theme \"%s\"", theme)
 
 	return ctx.String(http.StatusOK, "true")
 }
@@ -87,12 +79,21 @@ type HTTPMessageBody struct {
 	Body    string `json:"body,omitempty"`
 }
 
-type Theme string
+type Theme struct {
+	Background string `json:"background" form="background" query="background"`
+	Foreground string `json:"foreground" form="foreground" query="foreground"`
+	Cursor     string `json:"cursor" form="cursor" query="cursor"`
+	Selection  string `json:"selection" form="selection" query="selection"`
+}
 
-const (
-	DarkTheme  Theme = "dark"
-	LightTheme Theme = "light"
-)
+func (t Theme) String() string {
+	b, err := json.Marshal(t)
+	if err != nil {
+		return ""
+	}
+
+	return string(b)
+}
 
 type TTYD struct {
 	process *os.Process
@@ -106,9 +107,7 @@ func (t *TTYD) Start(theme Theme) error {
 	}
 
 	args := []string{"-u", "1000", "-g", "1000", "-t", "titleFixed='sqlcl'"}
-	if theme == LightTheme {
-		args = append(args, "-t", "theme={'background': '#ffffff', 'foreground': '#2b2b2b', 'cursor': '#adadad', 'selection': '#ddb6fc'}")
-	}
+	args = append(args, "-t", fmt.Sprintf("theme=%s", theme))
 
 	args = append(args, "/bin/bash", "/home/sql.sh")
 
