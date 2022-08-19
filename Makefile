@@ -14,13 +14,13 @@ extension:
 	docker build -t $(TAGGED_IMAGE_NAME) --build-arg VERSION=$(VERSION) --build-arg MINOR=$(MINOR) .
 
 install:
-	docker extension install $(TAGGED_IMAGE_NAME)
+	docker extension install -f $(TAGGED_IMAGE_NAME)
 
 validate: extension
-	docker extension  validate $(TAGGED_IMAGE_NAME)
+	docker extension validate $(TAGGED_IMAGE_NAME)
 
 update: extension
-	docker extension update $(TAGGED_IMAGE_NAME)
+	docker extension update -f $(TAGGED_IMAGE_NAME)
 
 multiarch:
 	docker buildx create --name=buildx-multi-arch --driver=docker-container --driver-opt=network=host
