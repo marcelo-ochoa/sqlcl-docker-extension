@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Grid, LinearProgress, Typography, useMediaQuery } from '@mui/material';
+import { Box, Grid, LinearProgress, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { createDockerDesktopClient } from '@docker/extension-api-client';
 
 
@@ -10,54 +10,67 @@ function useDockerDesktopClient() {
 }
 
 export function App() {
-  const [started, setStarted] = useState(false);
   const [ready, setReady] = useState(false);
+  const [unavailable, setUnavailable] = useState(false);
   const ddClient = useDockerDesktopClient();
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const theme = useTheme();
 
   useEffect(() => {
-    const start = async (darkMode: boolean) => {
-      setStarted(() => false);
+    let timer: number;
+
+    const start = async () => {
       setReady(() => false);
 
-      if (darkMode) {
-        await ddClient.extension.vm?.service?.post('/dark', null);
-      } else {
-        await ddClient.extension.vm?.service?.post('/light', null);
-      }
-
-      setStarted(() => true);
+      let colors = {
+        background: theme.palette.background.default,
+        foreground: theme.palette.text.primary,
+        // @ts-expect-error
+        cursor: theme.palette.docker.grey[800],
+        selection: theme.palette.primary.light,
+      };
+      await ddClient.extension.vm?.service?.post('/start', colors);
     };
 
-    start(prefersDarkMode);
-  }, [prefersDarkMode]);
+    start().then(() => {
+      let retries = 10;
+      let timer = setInterval(async () => {
 
-  useEffect(() => {
-    if (!started || ready) {
-      return;
-    }
+        if (retries == 0) {
+          clearInterval(timer);
+          setUnavailable(true);
+        }
 
+        try {
+          const result = await ddClient.extension.vm?.service?.get('/ready');
 
-    const checkIfsqlclIsReady = async () => {
-      const result = await ddClient.extension.vm?.service?.get('/ready');
-      const ready = Boolean(result);
-      if (ready) {
-        clearInterval(timer);
-      }
-      setReady(() => ready);
-    };
-
-    let timer = setInterval(() => {
-      checkIfsqlclIsReady();
-    }, 1000);
+          if (Boolean(result)) {
+            setReady(() => true);
+            clearInterval(timer);
+          }
+        } catch (error) {
+          console.log('error when checking sqlcl status', error);
+          retries--;
+        }
+      }, 1000);
+    }).catch(error => {
+      console.log('failed to start sqlcl', error);
+      setUnavailable(true);
+    })
 
     return () => {
       clearInterval(timer);
     };
-  }, [started, ready]);
+  }, [theme]);
 
   return (
     <>
+      {unavailable && (
+        <Grid container flex={1} direction="column" padding="16px 32px" height="100%" justifyContent="center" alignItems="center">
+          <Grid item>
+            SQLcl failed to start, please close the extension and reopen to try again.
+          </Grid>
+        </Grid>
+      )}
       {!ready && (
         <Grid container flex={1} direction="column" padding="16px 32px" height="100%" justifyContent="center" alignItems="center">
           <Grid item>
