@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Added some aliases for SQLcl commands (usr, sess, dblinks, registry, invalid).
 - Sample usage of persistent volume to import/export files.
 - Updated icon.
+- Autodetect dark/light mode.
 
 ## v22.2.0
 
