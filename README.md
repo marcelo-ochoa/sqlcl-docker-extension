@@ -33,7 +33,7 @@ SQLcl is not logged into the Oracle RDBMS you should log using connect command, 
 
 ![Connect sample](docs/images/screenshot2.png?raw=true)
 
-Note that an Oracle server running at Docker Desktop or externals is not localhost, the IP for OracleXE running at Docker Desktop is available at the menu, Settings -> Resources -> Network -> Docker subnet, in my case is 192.168.65.0/24 so an internal IP for reaching OracleXE container running at Docker Desktop will be 192.168.65.2, , also there is an internal DNS name that resolve above IP named **host.docker.internal**.
+Note that an Oracle server running at Docker Desktop or externals is not localhost, the IP for OracleXE running at Docker Desktop is available at the menu, Settings -> Resources -> Network -> Docker subnet, in my case is 192.168.65.0/24 so an internal IP for reaching OracleXE container running at Docker Desktop will be 192.168.65.2, also there is an internal DNS name that resolve above IP named **host.docker.internal**.
 
 ![Docker Desktop Subnet](https://miro.medium.com/max/700/0*m4e0OEQprx_GgUA7)
 
@@ -118,7 +118,7 @@ finally use you Wallet inside SQLcl Docker Extension using:
 
 ```sql
 SQL> set cloudconfig /home/sqlcl/Wallet_DBparquet.zip
-SQL> connect admin/***********@dbparquet_high
+SQL> connect admin/MyStrongSecretPwd@dbparquet_high
 SQL> desc demo_tab
 SQL> select count(*) from demo_tab;
 ```
