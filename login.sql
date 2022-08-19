@@ -26,4 +26,4 @@ PROMPT -- Cloud connection file upload:
 PROMPT --       $ docker cp /tmp/Wallet_MyDB.zip mochoa_sqlcl-docker-extension-desktop-extension-service:/home/sqlcl
 PROMPT -- Cloud connection string:
 PROMPT --    SQL> set cloudconfig /home/sqlcl/Wallet_MyDB.zip
-PROMPT --    SQL> conn admin/MyStringPwd@mydb_high
+PROMPT --    SQL> conn admin/MyStrongSecretPwd@mydb_high
