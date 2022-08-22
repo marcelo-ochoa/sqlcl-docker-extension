@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Grid, LinearProgress, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Grid, LinearProgress, Typography, useTheme } from '@mui/material';
 import { createDockerDesktopClient } from '@docker/extension-api-client';
 
 
