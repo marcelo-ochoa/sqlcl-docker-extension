@@ -15,6 +15,7 @@ import (
 )
 
 var ttyd TTYD
+var globaltheme Theme
 
 func main() {
 	var socketPath string
@@ -59,17 +60,15 @@ func ready(ctx echo.Context) error {
 
 // start starts ttyd with the provided theme.
 func start(ctx echo.Context) error {
-	var theme Theme
-	if err := ctx.Bind(&theme); err != nil {
+	var newTheme Theme
+	if err := ctx.Bind(&newTheme); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-	if err := ttyd.Start(theme); err != nil {
-		log.Printf("failed to start ttyd with light mode: %s\n", err)
+	if err := ttyd.Start(newTheme); err != nil {
+		log.Printf("failed to start ttyd error is: %s\n", err)
 
 		return echo.NewHTTPError(http.StatusInternalServerError)
 	}
-
-	log.Println("started ttyd with theme \"%s\"", theme)
 
 	return ctx.String(http.StatusOK, "true")
 }
@@ -100,23 +99,26 @@ type TTYD struct {
 }
 
 func (t *TTYD) Start(theme Theme) error {
-	if t.IsStarted() {
+	if globaltheme.Background != theme.Background {
 		if err := t.Stop(); err != nil {
 			log.Printf("failed to stop ttyd: %s\n", err)
 		}
+		globaltheme = theme
 	}
-
-	args := []string{"-u", "1000", "-g", "1000", "-t", "titleFixed='sqlcl'"}
-	args = append(args, "-t", fmt.Sprintf("theme=%s", theme))
-
-	args = append(args, "/bin/bash", "/home/sql.sh")
-
-	cmd := exec.Command("/usr/bin/ttyd", args...)
-	if err := cmd.Start(); err != nil {
-		return err
+	if !t.IsStarted() {
+		args := []string{"-u", "1000", "-g", "1000", "-t", "titleFixed='sqlcl'"}
+		args = append(args, "-t", fmt.Sprintf("theme=%s", theme))
+	
+		args = append(args, "/bin/bash", "/home/sql.sh")
+	
+		cmd := exec.Command("/usr/bin/ttyd", args...)
+		if err := cmd.Start(); err != nil {
+			return err
+		}
+	
+		t.process = cmd.Process
+		log.Println("started ttyd with theme:", globaltheme)
 	}
-
-	t.process = cmd.Process
 
 	return nil
 }
@@ -127,8 +129,11 @@ func (t *TTYD) Stop() error {
 	}
 
 	if err := t.process.Kill(); err != nil {
+		log.Printf("failed to stop ttyd: %s\n", err)
 		return err
 	}
+	t.process.Wait()
+    t.process = nil
 
 	return nil
 }
