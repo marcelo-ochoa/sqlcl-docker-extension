@@ -58,6 +58,6 @@ COPY sqlcl.svg metadata.json docker-compose.yml ./
 COPY --from=client-builder /app/client/dist ui
 COPY --from=client-builder /opt/sqlcl /opt/sqlcl
 COPY --from=builder /backend/bin/service /
-COPY login.sql /home/sqlcl
+COPY --chown=1000:1000 login.sql /home/sqlcl
 
 ENTRYPOINT ["/sbin/tini", "--", "/service", "-socket", "/run/guest-services/sqlcl-docker-extension.sock"]
