@@ -25,7 +25,7 @@ PROMPT -- Sample connection string:
 PROMPT --    SQL> conn scott/tiger@host.docker.internal:1521/xepdb1
 PROMPT -- or using alias for local XE installation:
 PROMPT --    SQL> connxe
-PROMPT -- Cloud connection file upload:
+PROMPT -- Cloud connection with client credential (wallet), file upload:
 PROMPT --       $ docker cp /tmp/Wallet_MyDB.zip mochoa_sqlcl-docker-extension-desktop-extension-service:/home/sqlcl
 PROMPT -- Cloud connection string:
 PROMPT --    SQL> set cloudconfig /home/sqlcl/Wallet_MyDB.zip
