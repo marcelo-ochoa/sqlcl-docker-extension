@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## v22.3.0
+
+- Upgrade to latest SQLcl version.
+- Added category on metadata
+
 ## v22.2.1
 
 - Upgrade to latest SQLcl version.

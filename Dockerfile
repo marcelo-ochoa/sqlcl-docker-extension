@@ -1,11 +1,12 @@
 FROM --platform=$BUILDPLATFORM node:17.7-alpine3.14 AS client-builder
-ARG VERSION=22.2
-ARG MINOR=1
-ARG PATCH=201
-ARG BUILD=1451
+ARG VERSION=22.3
+ARG MINOR=0
+ARG PATCH=270
+ARG BUILD=1254
 WORKDIR /app/client
 # https://www.oracle.com/database/sqldeveloper/technologies/sqlcl/download/
-RUN wget https://download.oracle.com/otn_software/java/sqldeveloper/sqlcl-${VERSION}.${MINOR}.${PATCH}.${BUILD}.zip && unzip -d /opt sqlcl-${VERSION}.${MINOR}.${PATCH}.${BUILD}.zip
+ADD sqlcl-${VERSION}.${MINOR}.${PATCH}.${BUILD}.zip .
+RUN unzip -d /opt sqlcl-${VERSION}.${MINOR}.${PATCH}.${BUILD}.zip
 # cache packages in layer
 COPY client/package.json /app/client/package.json
 COPY client/package-lock.json /app/client/package-lock.json
@@ -41,6 +42,7 @@ LABEL org.opencontainers.image.title="Oracle SQLcl client tool"
 LABEL org.opencontainers.image.description="Docker Extension for using an embedded version of Oracle SQLcl client tool."
 LABEL org.opencontainers.image.vendor="Marcelo Ochoa"
 LABEL com.docker.desktop.extension.api.version=">= 0.2.3"
+LABEL com.docker.extension.categories="database,utility-tools"
 LABEL com.docker.extension.screenshots="[{\"alt\":\"Sample usage using scott user\", \"url\":\"https://raw.githubusercontent.com/marcelo-ochoa/sqlcl-docker-extension/main/docs/images/screenshot2.png\"},\
     {\"alt\":\"Some formating options\", \"url\":\"https://raw.githubusercontent.com/marcelo-ochoa/sqlcl-docker-extension/main/docs/images/screenshot3.png\"},\
     {\"alt\":\"Explain Plan\", \"url\":\"https://raw.githubusercontent.com/marcelo-ochoa/sqlcl-docker-extension/main/docs/images/screenshot4.png\"}]"

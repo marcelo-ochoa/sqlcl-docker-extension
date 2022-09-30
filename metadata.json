@@ -1,4 +1,6 @@
 {
+  "name": "SQLcl",
+  "provider": "Marcelo Ochoa",
   "icon": "sqlcl.svg",
   "vm": {
     "composefile": "docker-compose.yml",

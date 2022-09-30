@@ -54,6 +54,7 @@ export function App() {
       }, 1000);
     }).catch(error => {
       console.log('failed to start sqlcl', error);
+      ddClient.desktopUI.toast.error(error);
       setUnavailable(true);
     })
 
