@@ -123,6 +123,14 @@ SQL> desc demo_tab
 SQL> select count(*) from demo_tab;
 ```
 
+## Using Liquibase with Scott user
+
+By default scott user created during OracleXE installation only have connect,resource roles; to use latest Liquibase distributon included on SQLcl you have to grant another extra role:
+
+```sql
+SQL> grant CREATE VIEW to scott;
+```
+
 ## Uninstall
 
 To uninstall the extension just execute:

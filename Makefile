@@ -13,7 +13,7 @@ clean:
 extension:
 	docker build -t $(TAGGED_IMAGE_NAME) --build-arg VERSION=$(VERSION) --build-arg MINOR=$(MINOR) .
 
-install:
+install: extension
 	docker extension install -f $(TAGGED_IMAGE_NAME)
 
 validate: extension
