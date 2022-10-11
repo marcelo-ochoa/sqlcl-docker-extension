@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 - Upgrade to latest SQLcl version.
 - Added category on metadata
+- Fixed issue #3
 
 ## v22.2.1
 

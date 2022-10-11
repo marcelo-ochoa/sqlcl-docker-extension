@@ -24,7 +24,6 @@ export function App() {
       let colors = {
         background: theme.palette.background.default,
         foreground: theme.palette.text.primary,
-        // @ts-expect-error
         cursor: theme.palette.docker.grey[800],
         selection: theme.palette.primary.light,
       };
