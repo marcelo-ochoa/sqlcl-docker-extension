@@ -1,4 +1,4 @@
-# Docker Extension
+# SQLcl Docker Extension
 
 sqlcl extension for Docker Desktop
 
