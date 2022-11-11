@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v22.3.1
+
+- Upgrade to latest SQLcl version.
+
 ## v22.3.0
 
 - Upgrade to latest SQLcl version.
