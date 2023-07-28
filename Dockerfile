@@ -1,8 +1,8 @@
 FROM --platform=$BUILDPLATFORM node:17.7-alpine3.14 AS client-builder
-ARG VERSION=22.4
+ARG VERSION=23.1
 ARG MINOR=0
-ARG PATCH=342
-ARG BUILD=1212
+ARG PATCH=089
+ARG BUILD=0929
 WORKDIR /app/client
 # https://www.oracle.com/database/sqldeveloper/technologies/sqlcl/download/
 ADD sqlcl-${VERSION}.${MINOR}.${PATCH}.${BUILD}.zip .
