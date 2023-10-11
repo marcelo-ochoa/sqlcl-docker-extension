@@ -1,8 +1,8 @@
 FROM --platform=$BUILDPLATFORM node:17.7-alpine3.14 AS client-builder
-ARG VERSION=23.2
+ARG VERSION=23.3
 ARG MINOR=0
-ARG PATCH=178
-ARG BUILD=1027
+ARG PATCH=270
+ARG BUILD=1251
 WORKDIR /app/client
 # https://www.oracle.com/database/sqldeveloper/technologies/sqlcl/download/
 ADD sqlcl-${VERSION}.${MINOR}.${PATCH}.${BUILD}.zip .
@@ -29,8 +29,10 @@ RUN --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.cache/go-build \
     go build -trimpath -ldflags="-s -w" -o bin/service
 
-FROM alpine:3.15
-RUN apk update && apk add --no-cache ncurses bash ttyd tini openjdk17-jre && \
+FROM openjdk:22-jdk-slim-bullseye
+RUN echo "deb http://deb.debian.org/debian bullseye-backports main" >> /etc/apt/sources.list && \
+    apt update && apt install -y ttyd tini && \
+    apt clean && \
     mkdir -p /home/sqlcl && \
     echo "HOME=/home/sqlcl;cd /home/sqlcl;/opt/sqlcl/bin/sql /nolog" > /home/sql.sh && \
     chown 1000:1000 /home/sqlcl /home/sql.sh && \
@@ -62,4 +64,4 @@ COPY --from=client-builder /opt/sqlcl /opt/sqlcl
 COPY --from=builder /backend/bin/service /
 COPY --chown=1000:1000 login.sql /home/sqlcl
 
-ENTRYPOINT ["/sbin/tini", "--", "/service", "-socket", "/run/guest-services/sqlcl-docker-extension.sock"]
+ENTRYPOINT ["/usr/bin/tini", "--", "/service", "-socket", "/run/guest-services/sqlcl-docker-extension.sock"]
