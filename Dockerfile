@@ -1,8 +1,8 @@
 FROM --platform=$BUILDPLATFORM node:17.7-alpine3.14 AS client-builder
 WORKDIR /app/client
 # https://www.oracle.com/database/sqldeveloper/technologies/sqlcl/download/
-ADD https://download.oracle.com/otn_software/java/sqldeveloper/sqlcl-latest.zip .
-RUN unzip -d /opt sqlcl-latest.zip
+ADD https://download.oracle.com/otn_software/java/sqldeveloper/sqlcl-24.1.0.087.0929.zip .
+RUN unzip -d /opt sqlcl-24.1.0.087.0929.zip
 # cache packages in layer
 COPY client/package.json /app/client/package.json
 COPY client/package-lock.json /app/client/package-lock.json

@@ -1,7 +1,7 @@
 all: clean extension install
 
 ORG=mochoa
-VERSION=23.4
+VERSION=24.1
 MINOR=0
 IMAGE_NAME=$(ORG)/sqlcl-docker-extension
 TAGGED_IMAGE_NAME=$(IMAGE_NAME):$(VERSION).${MINOR}

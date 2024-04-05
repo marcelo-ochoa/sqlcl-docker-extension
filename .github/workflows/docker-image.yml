@@ -26,4 +26,4 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: mochoa/sqlcl-docker-extension:23.4.0
+          tags: mochoa/sqlcl-docker-extension:24.1.0
