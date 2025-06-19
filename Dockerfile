@@ -1,8 +1,8 @@
-FROM --platform=$BUILDPLATFORM node:17.7-alpine3.14 AS client-builder
+FROM --platform=$BUILDPLATFORM node:18.20-alpine AS client-builder
 WORKDIR /app/client
 # https://www.oracle.com/database/sqldeveloper/technologies/sqlcl/download/
-ADD https://download.oracle.com/otn_software/java/sqldeveloper/sqlcl-25.1.0.101.2353.zip .
-RUN unzip -d /opt sqlcl-25.1.0.101.2353.zip
+ADD https://download.oracle.com/otn_software/java/sqldeveloper/sqlcl-25.1.1.113.2054.zip .
+RUN unzip -d /opt sqlcl-25.1.1.113.2054.zip
 # cache packages in layer
 COPY client/package.json /app/client/package.json
 COPY client/package-lock.json /app/client/package-lock.json
@@ -13,7 +13,7 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
 COPY client /app/client
 RUN npm run build
 
-FROM golang:1.17-alpine AS builder
+FROM golang:1.24-alpine AS builder
 ENV CGO_ENABLED=0
 WORKDIR /backend
 COPY vm/go.* .
