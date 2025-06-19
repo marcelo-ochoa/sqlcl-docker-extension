@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM node:18.20-alpine AS client-builder
+FROM --platform=$BUILDPLATFORM node:22-alpine AS client-builder
 WORKDIR /app/client
 # https://www.oracle.com/database/sqldeveloper/technologies/sqlcl/download/
 ADD https://download.oracle.com/otn_software/java/sqldeveloper/sqlcl-25.1.1.113.2054.zip .
