@@ -7,10 +7,10 @@ sqlcl extension for Docker Desktop
 Until this extension is ready at Docker Extension Hub you can install just by executing:
 
 ```bash
-$ docker extension install mochoa/sqlcl-docker-extension:25.1.1
+$ docker extension install mochoa/sqlcl-docker-extension:25.2.0
 Extensions can install binaries, invoke commands and access files on your machine. 
 Are you sure you want to continue? [y/N] y
-Installing new extension "mochoa/sqlcl-docker-extension:25.1.1"
+Installing new extension "mochoa/sqlcl-docker-extension:25.2.0"
 Installing service in Desktop VM...
 Setting additional compose attributes
 VM service started
@@ -136,7 +136,7 @@ SQL> grant CREATE VIEW to scott;
 To uninstall the extension just execute:
 
 ```bash
-$ docker extension uninstall mochoa/sqlcl-docker-extension:25.1.1
+$ docker extension uninstall mochoa/sqlcl-docker-extension:25.2.0
 Extension "Oracle SQLcl client tool" uninstalled successfully
 ```
 
