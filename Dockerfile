@@ -25,13 +25,13 @@ RUN --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.cache/go-build \
     go build -trimpath -ldflags="-s -w" -o bin/service
 
-FROM ghcr.io/graalvm/graalvm-ce:ol8-java17-22.3.3
+FROM ghcr.io/graalvm/jdk-community:21-ol9
 RUN set -eux \
     && if [ "$(arch)" == "x86_64" ]; then TTYD_PKG=ttyd.i686; fi \
     && if [ "$(arch)" == "aarch64" ]; then TTYD_PKG=ttyd.aarch64; fi \
     && curl -o /usr/bin/ttyd -L https://github.com/tsl0922/ttyd/releases/download/1.7.4/${TTYD_PKG} \
-    && rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm && microdnf install -y tini unzip ncurses \
-    && gu install js && microdnf clean all && chmod +x /usr/bin/ttyd \
+    && rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && microdnf install -y tini unzip ncurses gzip findutils \
+    && microdnf clean all && chmod +x /usr/bin/ttyd \
     && mkdir -p /home/sqlcl \
     && echo "HOME=/home/sqlcl;cd /home/sqlcl;/opt/sqlcl/bin/sql /nolog" > /home/sql.sh \
     && chown 1000:1000 /home/sqlcl /home/sql.sh \
@@ -60,6 +60,15 @@ COPY sqlcl.svg metadata.json docker-compose.yml /
 
 COPY --from=client-builder /app/client/dist /ui
 COPY --chown=1000:1000 --from=client-builder /opt/sqlcl /opt/sqlcl
+# Install GraalJS into SQLcl lib folder to enable 'script' functionality in Java 21
+RUN set -eux \
+    && if [ "$(arch)" == "x86_64" ]; then ARCH=amd64; fi \
+    && if [ "$(arch)" == "aarch64" ]; then ARCH=aarch64; fi \
+    && GRAALJS_VERSION=25.0.2 \
+    && curl -L -o /tmp/graaljs.tar.gz https://github.com/oracle/graaljs/releases/download/graal-${GRAALJS_VERSION}/graaljs-community-jvm-${GRAALJS_VERSION}-linux-${ARCH}.tar.gz \
+    && tar -xzf /tmp/graaljs.tar.gz -C /tmp \
+    && cp /tmp/graaljs-community-jvm-${GRAALJS_VERSION}-linux-${ARCH}/modules/*.jar /opt/sqlcl/lib/ \
+    && rm -rf /tmp/graaljs*
 COPY --from=builder /backend/bin/service /
 COPY --chown=1000:1000 login.sql /home/sqlcl
 
