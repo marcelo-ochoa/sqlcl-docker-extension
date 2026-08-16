@@ -10,5 +10,6 @@ services:
       - sqlcl_home:/home/sqlcl
     environment:
       - SQLPATH=/home/sqlcl
+      - JAVA_TOOL_OPTIONS="-Doracle.jdbc.timezoneAsRegion=false -Duser.timezone=UTC"
 volumes:
   sqlcl_home:
