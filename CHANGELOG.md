@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## v26.3.1
+
+- Upgrade to latest SQLcl version. See Release Notes for more details <https://www.oracle.com/tools/sqlcl/sqlcl-changelog.html>
+
 ## v26.3.0
 
 - Upgrade to latest SQLcl version. See Release Notes for more details <https://www.oracle.com/tools/sqlcl/sqlcl-changelog.html>
